@@ -52,12 +52,20 @@ simp_ds389::instances::accounts::password_policy:
 
 
 # GitLab - 389ds interoperability settings
+# ds389 2.0.0's dse_config (Ds389::ConfigItem) is a FLAT attr => value hash
+# applied to the instance config, not the older nested by-DN structure. These
+# two values also match the ds389 TLS defaults, but are kept explicit for
+# interop clarity.
 simp_ds389::instances::accounts::tls_params:
+  # ds389::instance::tls defaults its cert source to /etc/pki/simp/x509, which
+  # is not populated in the test environment. Without a real server cert the
+  # instance cannot initialize its attribute-encryption (attrcrypt) system and
+  # fails to start ("Unable to initialize attrcrypt system"), so point it at the
+  # FakeCA test PKI.
+  source: '/etc/pki/simp-testing/pki'
   dse_config:
-    cn=config:
-      nsslapd-minssf: 128
-    cn=encryption,cn=config:
-      nsSSLClientAuth: allowed
+    nsslapd-minssf: 128
+    nsslapd-SSLclientAuth: allowed
 
 
 ###############################################################################
@@ -80,3 +88,11 @@ pam::access::users:
 
 ssh::server::conf::permitrootlogin: true
 ssh::server::conf::authorizedkeysfile: '.ssh/authorized_keys'
+
+# simp_options::ldap (above) otherwise makes ssh::server pull in the
+# openssh-ldap package for LDAP AuthorizedKeysCommand support. That package was
+# removed in EL9+ ("Unable to find a match: openssh-ldap"), which breaks the
+# apply. This suite tests GitLab's LDAP auth, not ssh LDAP key lookup, so
+# disable the ssh LDAP integration here.
+# See https://github.com/simp/pupmod-simp-ssh/issues/225
+ssh::server::conf::ldap: false

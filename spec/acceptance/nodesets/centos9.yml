@@ -1,47 +1,40 @@
 ---
 HOSTS:
-  alma9-server:
+  centos9-server:
     roles:
     - server
     - default
     - master
     - el9
     platform: el-9-x86_64
-    box: almalinux/9
+    box: generic/centos9s
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
-    # GitLab omnibus + a `gitlab-ctl reconfigure` fork does not fit in 4 GB (no
-    # swap) -- reconfigure dies with Errno::ENOMEM. 6 GB leaves headroom.
-    vagrant_memsize: 6144
+    vagrant_memsize: 4096
     vagrant_cpus: 4
-    family: almalinux-cloud/almalinux-9
+    family: centos-cloud/centos-stream-9
     gce_machine_type: n1-standard-2
-  alma9-permittedclient:
+  centos9-permittedclient:
     roles:
     - client
     - permittedclient
     platform: el-9-x86_64
-    box: almalinux/9
+    box: generic/centos9s
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
-    # `dnf install` with EPEL enabled (repo metadata + a package transaction,
-    # e.g. net-tools / firewalld) OOMs this client at 1 GB -- a flaky CI
-    # failure. 2 GB is reliable and cheap on the 16 GB runner.
-    vagrant_memsize: 2048
+    vagrant_memsize: 512
     vagrant_cpus: 1
-    family: almalinux-cloud/almalinux-9
+    family: centos-cloud/centos-stream-9
     gce_machine_type: n1-standard-2
-  alma9-ldapserver:
+  centos9-ldapserver:
     roles:
     - client
     - unknownclient
     - ldapserver
     platform: el-9-x86_64
-    box: almalinux/9
+    box: generic/centos9s
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
-    # `dnf install 389-ds-base` (pulled in by the ds389 module) OOMs at 1 GB
-    # once EPEL metadata is loaded. 2 GB gives dnf the headroom.
-    vagrant_memsize: 2048
+    vagrant_memsize: 1024
     vagrant_cpus: 1
-    family: almalinux-cloud/almalinux-9
+    family: centos-cloud/centos-stream-9
     gce_machine_type: n1-standard-2
 CONFIG:
   log_level: verbose

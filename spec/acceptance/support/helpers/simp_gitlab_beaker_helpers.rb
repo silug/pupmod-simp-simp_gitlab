@@ -1,3 +1,13 @@
+# rubocop:disable Style/OneClassPerFile -- nested helper namespace requires
+# forward-declaring the parent module in this single file (see note below).
+# Namespace for simp_gitlab acceptance-test helpers.
+# NOTE: This bare module declaration MUST come first. The `SutVariables`
+# module below uses the compact `SimpGitlabBeakerHelpers::SutVariables`
+# form, which requires the parent constant to already be defined; without
+# this, Ruby raises `uninitialized constant SimpGitlabBeakerHelpers` and
+# every acceptance spec fails to load.
+module SimpGitlabBeakerHelpers; end
+
 # memoized variables to share across examples
 module SimpGitlabBeakerHelpers::SutVariables
   def gitlab_ce_version
@@ -48,3 +58,4 @@ module SimpGitlabBeakerHelpers::SutVariables
     "#{proto}://#{gitlab_server_fqdn}#{":#{port}" if port}/users/sign_in"
   end
 end
+# rubocop:enable Style/OneClassPerFile

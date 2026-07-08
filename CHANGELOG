@@ -1,3 +1,16 @@
+* Mon Jun 08 2026 Steven Pritchard <steven.pritchard@gmail.com> - 1.0.0
+- Stop configuring bundled Mattermost, which was removed from the GitLab
+  package in 19.0. Emitting any `mattermost`/`mattermost_nginx` setting now
+  causes `gitlab-ctl reconfigure` to abort, so these keys are no longer written
+  to `gitlab.rb`. To integrate an external Mattermost, set
+  `gitlab_rails['mattermost_host']`.
+- Switch `requirements` from `puppet` to `openvox` (>= 8 < 9)
+- Point `issues_url` at GitHub Issues
+- Drop end-of-life OS support (CentOS 8, EL7); list EL10 across all supported distros
+- Allow newer SIMP module dependencies (see metadata.json diff)
+- Sync Gemfile with current puppetsync baseline (adds OpenVox to test gems)
+- Drop Puppet 7 / Ruby 2.7 from GitHub Actions; use Ruby 3.2.11 with OpenVox 8 and 3.4.9 elsewhere
+
 * Tue Jun 10 2025 Chris Tessmer <chris.tessmer@onyxpoint.com> - 0.13.1
 - Fix rubocop issues
 
