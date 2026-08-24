@@ -1,3 +1,6 @@
+* Mon Aug 24 2026 Steven Pritchard <steve@sicura.us> - 1.0.1
+- [puppetsync] Update metadata.json dependency ranges from the Forge
+
 * Mon Jun 08 2026 Steven Pritchard <steven.pritchard@gmail.com> - 1.0.0
 - Stop configuring bundled Mattermost, which was removed from the GitLab
   package in 19.0. Emitting any `mattermost`/`mattermost_nginx` setting now
