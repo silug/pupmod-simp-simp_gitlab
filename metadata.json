@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_gitlab",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "SIMP Team",
   "summary": "SIMP profiles for GitLab",
   "license": "Apache-2.0",
@@ -33,7 +33,7 @@
     },
     {
       "name": "simp/iptables",
-      "version_requirement": ">= 6.5.3 < 10.0.0"
+      "version_requirement": ">= 6.5.3 < 11.0.0"
     },
     {
       "name": "simp/pam",
